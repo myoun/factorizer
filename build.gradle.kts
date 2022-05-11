@@ -42,6 +42,14 @@ dependencies {
 
     // import kotlinx serialization
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
+    implementation("net.kyori:adventure-text-minimessage:4.10.1")
+
+//    runtimeOnly(kotlin("stdlib"))
+//    runtimeOnly(kotlin("reflect"))
+//    runtimeOnly("com.github.Minestom:Minestom:4a976a3333")
+//    runtimeOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
 }
 
 configurations {
@@ -70,6 +78,16 @@ tasks {
 
     // Make build depend on shadowJar as shading dependencies will most likely be required.
     build { dependsOn(shadowJar) }
+
+    task("buildAndPut") {
+        dependsOn(shadowJar)
+        doLast {
+            copy {
+                from("build/libs/${project.name}-${project.version}-all.jar")
+                into(".debug/extensions")
+            }
+        }
+    }
 
 }
 
